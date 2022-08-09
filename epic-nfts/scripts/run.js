@@ -12,6 +12,12 @@ const main = async () => {
     txn = await nftContract.makeAnEpicNFT();
     // Minting が仮想マイナーにより、承認されるのを待つ。
     await txn.wait();
+    txn = await nftContract.makeAnEpicNFT();
+    // Minting が仮想マイナーにより、承認されるのを待つ。
+    await txn.wait();
+    txn = await nftContract.makeAnEpicNFT();
+    // Minting が仮想マイナーにより、承認されるのを待つ。
+    await txn.wait();
   };
   const runMain = async () => {
     try {

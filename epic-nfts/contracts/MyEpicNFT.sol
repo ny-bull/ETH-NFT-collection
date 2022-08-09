@@ -30,6 +30,11 @@ contract MyEpicNFT is ERC721URIStorage {
   string[] firstWords = ["First", "First-2", "First-3", "First-4", "First-5", "First-6"];
   string[] secondWords = ["Second", "Second-2", "Second-3", "Second-4", "Second-5", "Second-6"];
   string[] thirdWords = ["Third", "Third-2", "Third-3", "Third-4", "Third-5", "Third-6"];
+  uint256 maxMintCnt = 3;
+
+  event NewEpicNFTMinted(address sender, uint256 tokenId, uint256 maxCnt);
+
+  event MintFailed(string errMsg);
 
   // NFT トークンの名前とそのシンボルを渡します。
   constructor() ERC721 ("SquareNFT", "SQUARE") {
@@ -75,6 +80,12 @@ contract MyEpicNFT is ERC721URIStorage {
   function makeAnEpicNFT() public {
     // 現在のtokenIdを取得します。tokenIdは0から始まります。
     uint256 newItemId = _tokenIds.current();
+
+    if (newItemId > 2) {
+      console.log("Mint Failed");
+      emit MintFailed("Already all NFT is minted. Sorry");
+      return;
+    }
 
     // 3つの配列からそれぞれ1つの単語をランダムに取り出します。
     string memory first = pickRandomFirstWord(newItemId);
@@ -129,5 +140,6 @@ contract MyEpicNFT is ERC721URIStorage {
 
     // 次の NFT が Mint されるときのカウンターをインクリメントする。
     _tokenIds.increment();
+    emit NewEpicNFTMinted(msg.sender, newItemId, maxMintCnt);
   }
 }
